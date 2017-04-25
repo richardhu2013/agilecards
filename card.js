@@ -22,9 +22,9 @@ module.exports = () => {
       return done(new Error('estimate should be number'));
     }
     if (!opts.hasOwnProperty('status')) {
-      status = columns.COLUMNS[0].status;
+      status = columns.COLUMNS[0].name;
     } else if (opts.hasOwnProperty('status') && columns.toInt(opts.status) === -1) {
-      status = columns.COLUMNS[0].status;
+      status = columns.COLUMNS[0].name;
     } else {
       status = opts.status;
     }

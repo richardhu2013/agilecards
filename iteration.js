@@ -71,16 +71,17 @@ module.exports = (opts) => {
       // Same column, doing nothing
       return done(null, card);
     }
+
+    //Change card status
+    card.status = columns.COLUMNS[toColumn].name;
+
+    colSets[toColumn][card.title] = card;
     // Delete card from original column sets
     delete colSets[col][card.title];
 
-    //Change card status
-    card.status = columns.COLUMNS[toColumn].status;
-
-    colSets[toColumn][card.title] = card;
     var moveAction = {
       prev: col,
-      current: toColumn,
+      next: toColumn,
       title: card.title
     };
     moveStack.push(moveAction);
@@ -92,14 +93,15 @@ module.exports = (opts) => {
     if (move === undefined) {
       return done(new Error('no last move'));
     }
-    var card = colSets[move.current][move.title];
-
-    delete colSets[move.current][move.title];
+    var card = colSets[move.next][move.title];
 
     //Change card status back to last one
-    card.status = columns.COLUMNS[move.prev].status;
+    card.status = columns.COLUMNS[move.prev].name;
 
     colSets[move.prev][move.title] = card;
+
+    delete colSets[move.next][move.title];
+
     done(null, card);
   };
 

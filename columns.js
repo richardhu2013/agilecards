@@ -6,22 +6,22 @@ const RESOLVED = 'resolved';
 const DONE = 'done';
 
 var COLUMNS = [{
-  status: 'starting',
+  name: STARTING,
   limit: -1
 }, {
-  status: 'workinprogress',
+  name: WORKINPROGRESS,
   limit: 100
 }, {
-  status: 'resolved',
+  name: RESOLVED,
   limit: 200
 }, {
-  status: 'done',
+  name: DONE,
   limit: -1
 }];
 
 var INDEX = {};
 for (var i = 0, ii = COLUMNS.length; i < ii; i++) {
-  INDEX[COLUMNS[i].status] = i;
+  INDEX[COLUMNS[i].name] = i;
 }
 
 module.exports = {
@@ -31,13 +31,13 @@ module.exports = {
     if (!COLUMNS.hasOwnProperty(i)) {
       return false;
     }
-    return COLUMNS[i].status;
+    return COLUMNS[i].name;
   },
   toInt: (s) => {
-    var STATUSES = COLUMNS.map((x) => {
-      return x.status
+    var columnNames = COLUMNS.map((x) => {
+      return x.name
     });
-    if (STATUSES.indexOf(s) === -1) {
+    if (columnNames.indexOf(s) === -1) {
       return -1;
     }
     return INDEX[s];
